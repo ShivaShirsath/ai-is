@@ -1,3 +1,7 @@
+/*
+Introduction to Transposition Techniques
+The transposition technique is a cryptographic technique that converts the plain text to cipher text by performing permutations on the plain text, i.e., changing each character of plain text for each round. It includes various techniques like the Rail Fence technique, Simple columnar transposition technique, simple columnar transposition technique with multiple rounds, Vernam cipher, and book Cipher to encrypt the plain text in a secure way.
+*/
 #include <iostream>
 using namespace std;
 int check(int x, int y)
