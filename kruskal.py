@@ -31,46 +31,43 @@ Step 6: END
 from collections import defaultdict
 
 class Graph:
-	def __init__(self, vertices):
-		self.V = vertices
-		self.graph = []
+	def __init__(self, v):
+		self.V, self.graph = v, []
 	def addEdge(self, u, v, w):
 		self.graph.append([u, v, w])
-	def find(self, parent, i):
-		if parent[i] == i:
+	def find(self, root, i):
+		if root[i] == i:
 			return i
-		return self.find(parent, parent[i])
-	def union(self, parent, rank, x, y):
-		xroot = self.find(parent, x)
-		yroot = self.find(parent, y)
-		if rank[xroot] < rank[yroot]:
-			parent[xroot] = yroot
-		elif rank[xroot] > rank[yroot]:
-			parent[yroot] = xroot
+		return self.find(root, root[i])
+	def union(self, root, rank, x, y):
+		xr = self.find(root, x)
+		yr = self.find(root, y)
+		if rank[xr] < rank[yr]:
+			root[x] = yr
+		elif rank[x] > rank[yr]:
+			root[y] = xr
 		else:
-			parent[yroot] = xroot
-			rank[xroot] += 1
+			root[yr] = xr
+			rank[xr] += 1
 	def KruskalMST(self):
-		result = []
-		i, e = 0, 0
+		result, i, e = [], 0, 0
 		self.graph = sorted(
 			self.graph, 
 			key=lambda item: item[2]
 		)
-		parent = []
-		rank = []
+		root, rank = [], []
 		for node in range(self.V):
-			parent.append(node)
+			root.append(node)
 			rank.append(0)
 		while e < self.V - 1:
 			u, v, w = self.graph[i]
 			i += 1
-			x = self.find(parent, u)
-			y = self.find(parent, v)
+			x = self.find(root, u)
+			y = self.find(root, v)
 			if x != y:
 				e += 1
 				result.append([u, v, w])
-				self.union(parent, rank, x, y)
+				self.union(root, rank, x, y)
 		minimumCost = 0
 		print ("Edges in the constructed MST")
 		for u, v, weight in result:
